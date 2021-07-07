@@ -1,57 +1,49 @@
 #include "holberton.h"
 
-int check_palindrome(char *s);
-
 /**
-  * is_palindrome - Returns if a string is palindrome
-  * @s: the string value to be checked
-  *
-  * Return: integer value
-  */
-int is_palindrome(char *s)
+ * is_palindrome_helper - helper function for finding a palindrome
+ * @s: int, counter for start
+ * @e: int, counter for end
+ * @c: char, the string
+ * Return: returns int boolean if palindrome or not
+ *
+ */
+int is_palindrome_helper(char *c, int s, int e)
 {
-	if (*s == '0')
+	if (s == e)
 		return (1);
-
-	return (check_palindrome(s));
-}
-
-/**
-  * check_palindrome - Check if a string is palindrome
-  * @s: the string value to be checked
-  *
-  * Return: integer value
-  */
-int check_palindrome(char *s)
-{
-	int l = _strlen_recursion(s) - 1;
-
-	if (*s == s[l])
-	{
-		s++;
-		l--;
-	}
-	else
-	{
+	if (c[s] != c[e])
 		return (0);
-	}
-
+	if (s < e + 1)
+		return (is_palindrome_helper(c, s + 1, e - 1));
 	return (1);
 }
 
 /**
-  * _strlen_recursion - Get the length of a string
-  * @s: the string to get the length
-  *
-  * Return: the string length
-  */
-int _strlen_recursion(char *s)
+ * getLen - gets the length of a string
+ * @s: char pointer to a string
+ *
+ * Return: return int, the length of a string
+ */
+int getLen(char *s)
 {
 	if (*s == '\0')
-	{
 		return (0);
-	}
 
-	s++;
-	return (_strlen_recursion(s) + 1);
+	return (1 + getLen(s + 1));
+}
+
+/**
+ * is_palindrome -  returns 1 if a string is a palindrome and 0 if not
+ * @s: pointer to char, an array
+ *
+ * Return: returns in 1 if palindrome 0 if not
+ */
+int is_palindrome(char *s)
+{
+	int count = getLen(s);
+
+	if (count == 0)
+		return (1);
+	return (is_palindrome_helper(s, 0, count - 1));
 }
